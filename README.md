@@ -1,5 +1,7 @@
 # bunq-http
 
+[![npm version](https://badge.fury.io/js/bunq-http.svg)](https://badge.fury.io/js/bunq-http)
+
 Low-level bunq HTTP client. Extends [axios](https://github.com/axios/axios) to manage:
 
 - setting required request headers
@@ -20,3 +22,11 @@ For a bit higher level API client, please see [bunq-session](https://github.com/
 ```sh
 npm install --save bunq-http
 ```
+
+## Authors
+
+- Robbert Klarenbeek, <robbertkl@renbeek.nl>
+
+## License
+
+This repo is published under the [MIT License](LICENSE).
