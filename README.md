@@ -1,6 +1,6 @@
 # bunq-http
 
-[![npm version](https://badge.fury.io/js/bunq-http.svg)](https://badge.fury.io/js/bunq-http)
+[![npm version](https://badge.fury.io/js/bunq-http.svg)](https://www.npmjs.com/package/bunq-http)
 
 Low-level bunq HTTP client. Extends [axios](https://github.com/axios/axios) to manage:
 
