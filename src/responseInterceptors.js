@@ -82,8 +82,8 @@ async function responseInterceptor(response) {
         const objectType = Object.keys(objectWrapper)[0];
         const object = objectWrapper[objectType];
 
-        // Append the type to the bunq object (hopefully 'TYPE' never clashes)
-        object.TYPE = objectType;
+        // Append the type to the bunq object
+        object.__type = objectType; // eslint-disable-line no-underscore-dangle
 
         response.bunq.objects.push(object);
         if (!(objectType in response.bunq.objectsByType)) response.bunq.objectsByType[objectType] = [];
