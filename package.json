@@ -40,7 +40,7 @@
     "axios": "^0.18.1",
     "esm": "^3.2.25",
     "node-forge": "^0.9.1",
-    "uuid": "^3.3.3"
+    "uuid": "^7.0.0"
   },
   "devDependencies": {
     "babel-eslint": "10.0.3",
