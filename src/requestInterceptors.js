@@ -1,5 +1,4 @@
 import { md, util } from 'node-forge';
-import { stringify } from 'querystring';
 import { parse } from 'url';
 import { v4 as uuid } from 'uuid';
 
@@ -17,26 +16,9 @@ function urlFromConfig(config) {
   return config.url ? `${config.baseURL.replace(/\/+$/, '')}/${config.url.replace(/^\/+/, '')}` : config.baseURL;
 }
 
-function headersFromConfig(config) {
-  const combinedHeaders = [config.headers.common, config.headers[config.method], config.headers].reduce(
-    (result, partialHeaders) => Object.assign(result, partialHeaders),
-    {}
-  );
-  return Object.keys(combinedHeaders)
-    .sort()
-    .filter(header => typeof combinedHeaders[header] !== 'object')
-    .reduce((result, header) => {
-      result[header] = combinedHeaders[header];
-      return result;
-    }, {});
-}
-
 async function requestInterceptor(config) {
   const urlParts = parse(urlFromConfig(config));
   const endpointWithoutQuery = urlParts.pathname;
-  let query = urlParts.query || '';
-  if (config.params) query += (query.length > 0 ? '&' : '') + stringify(config.params);
-  const endpointWithQuery = endpointWithoutQuery + (query.length > 0 ? `?${query}` : '');
 
   const requestId = uuid();
 
@@ -74,7 +56,7 @@ async function requestInterceptor(config) {
     throw new Error('Missing server key or verify function');
   }
 
-  if (config.bunq.shouldSignRequest) {
+  if (config.bunq.shouldSignRequest && config.data) {
     let signFunction = null;
     if (config.bunq.asyncClientSign) {
       signFunction = config.bunq.asyncClientSign;
@@ -84,18 +66,7 @@ async function requestInterceptor(config) {
       throw new Error('Missing client key or sign function');
     }
 
-    const headers = headersFromConfig(config);
-    const signHeaderKeys = Object.keys(headers).filter(
-      header => header === 'Cache-Control' || header === 'User-Agent' || header.startsWith('X-Bunq-')
-    );
-
-    let signData = signHeaderKeys.reduce(
-      (data, header) => `${data}\n${header}: ${headers[header]}`,
-      `${config.method.toUpperCase()} ${endpointWithQuery}`
-    );
-    signData += '\n\n';
-    if (config.data) signData += config.data.toString('binary');
-
+    const signData = config.data.toString('binary');
     const signature = await signFunction(signData);
     config.headers['X-Bunq-Client-Signature'] = signature;
   }

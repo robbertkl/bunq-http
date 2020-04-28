@@ -57,16 +57,7 @@ async function responseInterceptor(response) {
         throw new Error('Missing server key or verify function');
       }
 
-      const verifyHeaderKeys = Object.keys(headers).filter(
-        header => header.startsWith('X-Bunq-') && header !== 'X-Bunq-Server-Signature'
-      );
-
-      let verifyData = verifyHeaderKeys.reduce(
-        (data, header) => `${data}\n${header}: ${headers[header]}`,
-        `${response.status}`
-      );
-      verifyData += '\n\n';
-      verifyData += response.data.toString('binary');
+      const verifyData = response.data.toString('binary');
 
       if (!(await verifyFunction(verifyData, signature))) throw new Error('Server signature was not valid');
     }
