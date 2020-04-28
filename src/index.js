@@ -14,9 +14,6 @@ const defaults = {
   },
   rateLimit: {},
   bunq: {
-    language: 'en_US',
-    region: 'en_US',
-    geoLocation: '0 0 0 0 000',
     shouldSignRequest: true,
     shouldVerifyResponseSignature: true,
     // clientPrivateKey: forgePrivateKey

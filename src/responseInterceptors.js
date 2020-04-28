@@ -36,14 +36,6 @@ async function responseInterceptor(response) {
     if (!responseId) throw new Error('Response does not contain client response ID');
     response.bunq.responseId = responseId;
 
-    const originalRequestId = config.headers['X-Bunq-Client-Request-Id'];
-    if (!originalRequestId) throw new Error('Request did not have a bunq request ID');
-
-    const returnedRequestId = headers['X-Bunq-Client-Request-Id'];
-    if (!returnedRequestId) throw new Error('Response does not contain client request ID');
-
-    if (originalRequestId !== returnedRequestId) throw new Error('Response does not match request ID');
-
     if (config.bunq.shouldVerifyResponseSignature) {
       const signature = headers['X-Bunq-Server-Signature'];
       if (!signature) throw new Error('Response does not contain signature');
@@ -121,7 +113,6 @@ async function responseErrorInterceptor(error) {
   const responseId = headers['X-Bunq-Client-Response-Id'];
   if (responseId) response.bunq.responseId = responseId;
 
-  // X-Bunq-Client-Request-Id not always set for errors, so don't check it.
   // X-Bunq-Server-Signature not always set for errors, so don't verify it.
 
   if (headers['Content-Type'] !== 'application/json') throw error;

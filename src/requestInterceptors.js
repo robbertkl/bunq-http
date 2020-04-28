@@ -1,6 +1,5 @@
 import { md, util } from 'node-forge';
 import { parse } from 'url';
-import { v4 as uuid } from 'uuid';
 
 function signFunctionForPrivateKey(privateKey) {
   return async data => {
@@ -19,15 +18,6 @@ function urlFromConfig(config) {
 async function requestInterceptor(config) {
   const urlParts = parse(urlFromConfig(config));
   const endpointWithoutQuery = urlParts.pathname;
-
-  const requestId = uuid();
-
-  Object.assign(config.headers, {
-    'X-Bunq-Client-Request-Id': requestId,
-    'X-Bunq-Geolocation': config.bunq.geoLocation,
-    'X-Bunq-Language': config.bunq.language,
-    'X-Bunq-Region': config.bunq.region,
-  });
 
   if (config.bunq.token) {
     config.headers['X-Bunq-Client-Authentication'] = config.bunq.token;
