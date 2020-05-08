@@ -25,9 +25,9 @@ const defaults = {
   },
 };
 
-export default function (instanceConfig = {}) {
+export default (instanceConfig = {}) => {
   const instance = createAxios(deepMerge(instanceConfig, defaults));
   instance.interceptors.request.use(...requestInterceptors);
   instance.interceptors.response.use(...responseInterceptors);
   return instance;
-}
+};
