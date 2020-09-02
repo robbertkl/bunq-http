@@ -37,7 +37,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "esm": "^3.2.25",
-    "node-forge": "^0.9.1"
+    "node-forge": "^0.10.0"
   },
   "devDependencies": {
     "babel-eslint": "10.1.0",
