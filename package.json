@@ -35,7 +35,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "esm": "^3.2.25",
     "node-forge": "^0.10.0"
   },
